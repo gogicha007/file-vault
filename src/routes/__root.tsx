@@ -9,6 +9,7 @@ import { ThemeProvider } from '@/context/ThemeContext'
 
 import '../utils/i18n/i18n'
 import { setSSRLanguage } from '../utils/i18n/i18n'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createRootRoute({
   beforeLoad: async () => {
@@ -24,7 +25,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'File Vault',
       },
     ],
     links: [
@@ -38,17 +39,20 @@ export const Route = createRootRoute({
   notFoundComponent: () => {
     return <p>page not found</p>
   },
-  
+
   shellComponent: RootDocument,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { i18n } = useTranslation()
+  const locale = i18n.language || 'en'
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className={`antialiased`}>
         <ThemeProvider>
           <Header />
           {children}
