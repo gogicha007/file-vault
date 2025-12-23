@@ -1,5 +1,5 @@
-import { createIsomorphicFn } from "@tanstack/react-start"
-import { getCookie } from "@tanstack/react-start/server"
+import { createIsomorphicFn, createServerFn } from "@tanstack/react-start"
+import { getCookie, setCookie } from "@tanstack/react-start/server"
 import i18n from "i18next"
 import { initReactI18next } from "react-i18next"
 import enTranslations from "../../locales/en.json"
@@ -9,7 +9,7 @@ export const resources = {
   en: {
     translation: enTranslations,
   },
-  it: {
+  ka: {
     translation: kaTranslations,
   },
 } as const
@@ -23,20 +23,25 @@ i18n
   .init({
     resources,
     defaultNS,
+    lng: 'en',
     fallbackLng: "en",
     supportedLngs: ["en", "ka"],
-    detection: {
-      order: ["cookie"],
-      lookupCookie: COOKIE_NAME,
-      caches: ["cookie"],
-      cookieMinutes: 60 * 24 * 365,
-    },
     interpolation: { escapeValue: false },
   })
 
 export const setSSRLanguage = createIsomorphicFn().server(async () => {
   const language = getCookie(COOKIE_NAME)
-  await i18n.changeLanguage(language || "en")
+  const lng = language === 'ka' ? 'ka' : 'en'
+  await i18n.changeLanguage(lng)
 })
+
+export const saveLanguage = createServerFn({ method: 'POST' })
+  .inputValidator((lng: 'en' | 'ka') => lng)
+  .handler(async ({ data }) => {
+    setCookie(COOKIE_NAME, data, {
+      maxAge: 60 * 60 * 24 * 365,
+      path: '/',
+    })
+  })
 
 export default i18n

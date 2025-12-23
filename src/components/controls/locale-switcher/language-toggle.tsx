@@ -1,6 +1,6 @@
 import { Languages } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Button } from '../ui/button'
+import { Button } from '../../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +10,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
+} from '../../ui/dropdown-menu'
 
 type LangCode = 'en' | 'ka'
 

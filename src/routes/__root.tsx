@@ -2,11 +2,18 @@ import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
-import Header from '../components/Header'
+import Header from '@/components/layout/Header'
 
 import appCss from '../styles.css?url'
+import { ThemeProvider } from '@/context/ThemeContext'
+
+import '../utils/i18n/i18n'
+import { setSSRLanguage } from '../utils/i18n/i18n'
 
 export const Route = createRootRoute({
+  beforeLoad: async () => {
+    await setSSRLanguage()
+  },
   head: () => ({
     meta: [
       {
@@ -28,6 +35,10 @@ export const Route = createRootRoute({
     ],
   }),
 
+  notFoundComponent: () => {
+    return <p>page not found</p>
+  },
+  
   shellComponent: RootDocument,
 })
 
@@ -38,8 +49,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <Header />
-        {children}
+        <ThemeProvider>
+          <Header />
+          {children}
+        </ThemeProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',

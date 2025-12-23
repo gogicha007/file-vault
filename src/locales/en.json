@@ -3,5 +3,11 @@
     "en": "English",
     "ka": "ქართული",
     "label": "Language"
+  },
+   "MainMenu": {
+    "title": "Home",
+    "header": "Findly",
+    "file_search": "Search for files",
+    "settings": "Settings"
   }
 }
