@@ -1,13 +1,149 @@
 {
+  "AuthBar": { "signin": "Sign In", "signup": "Sign Up", "signout": "Sign Out" },
+  "FileSearch": {
+    "title": "AI powered File search",
+    "find_tagline": "Find Your Files in Seconds",
+    "find_subtagline": "Use natural language to search through your entire file system with AI precision",
+    "search_input": {
+      "placeholder": "Search for files and folders, e.g. find folder with IMDS files for LOT2",
+      "button": {
+        "search": "Search",
+        "searching": "Searching..."
+      }
+    },
+    "search_results": {
+      "found_files": "Found Files",
+      "open_folder": "Open Folder",
+      "open_file": "Open File"
+    },
+
+    "about": {
+      "ai_powered": {
+        "title": "AI-Powered",
+        "description": "Advanced AI understands context and intent"
+      },
+      "natural_lang": {
+        "title": "Natural Language",
+        "description": "Search line you talk, no complex queries"
+      },
+      "fast_results": {
+        "title": "Fast Results",
+        "description": "Get relevant results in milliseconds"
+      }
+    },
+    "confirmation_modal": {
+      "choose_action": "Choose Action",
+      "opening": "Opening"
+    },
+    "hint": {
+      "title": "Example Queries & Features",
+      "examples": { "title": "Search Examples" },
+      "actions": {
+        "title": "Available Actions",
+        "opens_file": "Opens with appropriate app (Excel, Word, etc.)",
+        "opens_folder": "Opens containing folder and selects the file"
+      }
+    },
+    "handle_search": {
+      "error": {
+        "search_results_response": "Sorry, there was an error while searching. Please try again."
+      }
+    },
+    "handle_confirm_open": {
+      "success": {
+        "search_results_response": "File opened successfully!"
+      },
+      "error": {
+        "search_results_response": "Failed to open the file. Please try again."
+      }
+    },
+    "handle_open_folder": {
+      "success": {
+        "search_results_response": "Folder opened successfully!"
+      },
+      "error": {
+        "search_results_response": "Failed to open the folder. Please try again."
+      }
+    },
+    "route": {
+      "open_file": {
+        "fail": "Failed to open file:",
+        "success": "File opened successfully!"
+      },
+      "open_folder": {
+        "no_result": "Failed to open folder: No result returned",
+        "success": "Folder opened successfully!",
+        "fail": "Failed to open folder:"
+      },
+      "handle_search": {
+        "not_found": "I couldn't find any files matching '",
+        "not_found_ext": "'. Try being more specific or check if the files exist in the relevant folders.",
+        "found_one": "I found 1 file matching '",
+        "found_one_ext": ". Click to open.'",
+        "found_many": "I found ",
+        "found_many_ii": " files matching '",
+        "found_many_iii": "'. Select the one you'd like to open.",
+        "sorry": "sorry, there was an error searching for files. Please try again."
+      }
+    }
+  },
+  "Header": {
+    "title": "Findly"
+  },
+
   "LocaleSwitcher": {
     "en": "English",
     "ka": "ქართული",
     "label": "Language"
   },
-   "MainMenu": {
+  "MainMenu": {
     "title": "Home",
     "header": "Findly",
     "file_search": "Search for files",
     "settings": "Settings"
+  },
+  "Settings": {
+    "title": "Settings",
+    "sub_title": "Manage your paths and descriptions to help AI find your files faster",
+    "paths": {
+      "add_path": {
+        "title": "Add New Path",
+        "sub_title": "Add a new folder path with a description to improve search accuracy",
+        "input_path": {
+          "label": "Folder Path",
+          "placeholder": "Enter full path e.g. G:\\My Drive\\Temp\\Gza\\Dormash"
+        },
+        "input_description": {
+          "label": "Description",
+          "placeholder": "Describe what's in the folder..."
+        },
+        "button": "Add Path"
+      },
+      "saved_paths": {
+        "title": "Saved Paths",
+        "sub_title": "Manage your indexed file paths and descriptions",
+        "no_paths": "No paths added yet. Add your first path above to get started.",
+        "button": { "save": "Save", "cancel": "Cancel", "delete": "Delete" },
+        "confirm": {
+          "title": "Are you sure?",
+          "description": "This action cannot be undone. This will permanently delete the path and its description"
+        }
+      },
+      "toasts": {
+        "invalid_path": "Invalid Path",
+        "path_added": {
+          "label": "Path added",
+          "description": "The path has been successfully added"
+        },
+        "path_deleted": {
+          "label": "Path deleted",
+          "description": "The pash has been removed"
+        },
+        "path_updated": {
+          "label": "Path updated",
+          "description": "The pash has been updated"
+        }
+      }
+    }
   }
 }

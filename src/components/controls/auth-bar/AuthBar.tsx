@@ -1,30 +1,28 @@
-import { Button } from "../../ui/button";
-// import { useTranslations } from "next-intl";
+import { Button } from '../../ui/button'
+import { useTranslation } from 'react-i18next'
 
 const AuthBar = () => {
-//   const tAB = useTranslations("AuthBar");
+  const { t: tAB } = useTranslation('translation', { keyPrefix: 'AuthBar' })
   const onClickLogin = () => {
-    alert("ფუნქცია ჯერ არ მუშაობს");
-  };
+    alert('ფუნქცია ჯერ არ მუშაობს')
+  }
   const onClickSignUp = () => {
-    alert("ფუნქცია ჯერ არ მუშაობს");
-  };
+    alert('ფუნქცია ჯერ არ მუშაობს')
+  }
   return (
     <div className="flex items-center gap-2 ml-2">
       <Button variant="ghost" size="sm" onClick={onClickLogin}>
-        {/* {tAB("signin")} */}
-        signin
+        {tAB('signin')}
       </Button>
       <Button
         onClick={onClickSignUp}
         size="sm"
         className="bg-gradient-to-r from-primary to-accent hover:opacity-90"
       >
-        {/* {tAB("signup")} */}
-        signup
+        {tAB('signup')}
       </Button>
     </div>
-  );
-};
+  )
+}
 
-export default AuthBar;
+export default AuthBar

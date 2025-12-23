@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import LocaleSwitcher from "../controls/locale-switcher/LocaleSwitcher";
 import MainMenu from "./MainMenu";
 import { FolderSearch } from "lucide-react";
-// import AuthBar from "../controls/auth-bar/AuthBar";
+import AuthBar from "../controls/auth-bar/AuthBar";
 import ThemeSwitcher from "../controls/theme-switcher/ThemeSwitcher";
 
 export default function Header() {
@@ -23,7 +23,7 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <LocaleSwitcher />
           <ThemeSwitcher />
-          {/* <AuthBar /> */}
+          <AuthBar />
         </div>
       </div>
     </header>
