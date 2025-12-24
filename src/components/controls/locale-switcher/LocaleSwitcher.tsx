@@ -22,21 +22,15 @@ const LANG_META: Record<
 export default function LocaleSwitcher() {
   const { i18n } = useTranslation()
 
-  const [isPending, startTransition] = useTransition()
+  const [isPending] = useTransition()
 
   const locale = normalizeLang(i18n.language || 'en')
 
   const changeLanguage = async (newLang: 'en' | 'ka') => {
-    startTransition(async () => {
-      // Persist and switch via shared helper (includes i18n.changeLanguage)
-      await setLanguage(newLang)
-    })
+    await setLanguage(newLang)
   }
   const handleChange = () => {
-    console.log(locale)
-    startTransition(() => {
-      changeLanguage(locale === 'en' ? 'ka' : 'en')
-    })
+    void changeLanguage(locale === 'en' ? 'ka' : 'en')
   }
 
   return (
@@ -48,7 +42,7 @@ export default function LocaleSwitcher() {
         className={`${isPending ? 'pointer-events-none' : 'cursor-pointer'}`}
       >
         <Globe className="h-4 w-4" />
-        <span className="ml-1 text-xs font-medium">
+        <span className="ml-1 text-xs font-medium" suppressHydrationWarning>
           {LANG_META[locale].label}
         </span>
       </Button>

@@ -1,24 +1,15 @@
-import {
-  HeadContent,
-  Scripts,
-  createRootRouteWithContext,
-  useRouter,
-} from '@tanstack/react-router'
+import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import Header from '@/components/layout/Header'
 
 import appCss from '../styles.css?url'
-import { ThemeProvider } from '@/context/ThemeContext'
-import { FunctionOnce } from '@/lib/function-once'
+import Providers from '@/context/Providers'
 
-import { QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { QueryClient } from '@tanstack/react-query'
 
 import '../utils/i18n/i18n'
-import { useTranslation } from 'react-i18next'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -58,15 +49,9 @@ export const Route = createRootRouteWithContext<{
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { i18n } = useTranslation()
-  const locale = i18n.language || 'en'
-
-  const router = useRouter()
-  const queryClient = router.options.context.queryClient
-
   return (
     <html
-      lang={locale}
+      lang={"en"}
       className={
         typeof window !== 'undefined' && (window as any).__SSR_THEME
           ? ((window as any).__SSR_THEME as 'dark' | 'light')
@@ -78,35 +63,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className={`antialiased`}>
-        <FunctionOnce>
-          {() => {
-            try {
-              const storageKey = 'color.theme'
-              const saved = localStorage.getItem(storageKey)
-              const prefersDark = window.matchMedia(
-                '(prefers-color-scheme: dark)',
-              ).matches
-              const shouldDark =
-                saved === 'dark' ||
-                ((saved === null || saved === 'system') && prefersDark)
-              const root = document.documentElement
-              root.classList.remove('light', 'dark')
-              root.classList.add(shouldDark ? 'dark' : 'light')
-              ;(window as any).__SSR_THEME = shouldDark ? 'dark' : 'light'
-            } catch {}
-          }}
-        </FunctionOnce>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            <div className="flex justify-center h-screen">
-              <div className="flex flex-col w-full max-w-7x1">
-                <Header />
-                <main>{children}</main>
-              </div>
+        {/* Theme pre-hydration handled in ThemeProvider's FunctionOnce */}
+        <Providers>
+          <div className="flex justify-center h-screen">
+            <div className="flex flex-col w-full max-w-7x1">
+              <Header />
+              <main>{children}</main>
             </div>
-          </ThemeProvider>
-          <ReactQueryDevtools buttonPosition="bottom-left" />
-        </QueryClientProvider>
+          </div>
+        </Providers>
         <TanStackDevtools
           config={{
             position: 'bottom-right',

@@ -10,7 +10,9 @@ export const resources = {
 
 export const defaultNS = 'translation'
 
+const STORAGE_KEY = 'LOCALE'
 const COOKIE_NAME = 'LOCALE'
+const isBrowser = typeof window !== 'undefined'
 
 function readCookie(name: string) {
   if (typeof document === 'undefined') return null
@@ -18,44 +20,66 @@ function readCookie(name: string) {
   const pairs = cookieHeader ? cookieHeader.split('; ') : []
   for (const c of pairs) {
     const [key, ...rest] = c.split('=')
-    if (key === name) return rest.join('=') || null
+    if (key === name) {
+      const raw = rest.join('=') || ''
+      try {
+        return decodeURIComponent(raw)
+      } catch {
+        return raw || null
+      }
+    }
   }
   return null
 }
 
 function writeCookie(name: string, value: string) {
   if (typeof document === 'undefined') return
-  document.cookie = `${name}=${value}; path=/; max-age=${60 * 60 * 24 * 365}`
+  const encoded = encodeURIComponent(value)
+  const base = `${name}=${encoded}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`
+  const isSecure = typeof location !== 'undefined' && location.protocol === 'https:'
+  document.cookie = isSecure ? `${base}; secure` : base
 }
 
 function getInitialLng(): 'en' | 'ka' {
   const saved =
-    (typeof localStorage !== 'undefined' &&
-      (localStorage.getItem(COOKIE_NAME) as 'en' | 'ka' | null)) ||
-    (readCookie(COOKIE_NAME) as 'en' | 'ka' | null)
+    typeof localStorage !== 'undefined'
+      ? (localStorage.getItem(STORAGE_KEY) as 'en' | 'ka' | null)
+      : null
+  const cookieSaved = readCookie(COOKIE_NAME) as 'en' | 'ka' | null
 
-  if (saved === 'ka') return 'ka'
-  if (saved === 'en') return 'en'
+  if (saved === 'ka' || cookieSaved === 'ka') return 'ka'
+  if (saved === 'en' || cookieSaved === 'en') return 'en'
   // fallback to browser
   const nav =
     typeof navigator !== 'undefined' ? navigator.language.toLowerCase() : 'en'
+
+  console.log('local storage', saved)
   return nav.startsWith('ka') ? 'ka' : 'en'
 }
 
-i18n.use(initReactI18next).init({
-  resources,
-  defaultNS,
-  lng: getInitialLng(),
-  fallbackLng: 'en',
-  supportedLngs: ['en', 'ka'],
-  interpolation: { escapeValue: false },
-})
+let initialized = false
+export function initI18n(initialLng?: 'en' | 'ka') {
+  if (initialized) return
+  const lng = initialLng ?? (isBrowser ? getInitialLng() : 'en')
+  i18n.use(initReactI18next).init({
+    resources,
+    defaultNS,
+    lng,
+    fallbackLng: 'en',
+    supportedLngs: ['en', 'ka'],
+    interpolation: { escapeValue: false },
+  })
+  initialized = true
+}
+
+// Initialize in all environments; on server it uses a safe default ('en')
+initI18n()
 
 export async function setLanguage(lng: 'en' | 'ka') {
-  writeCookie(COOKIE_NAME, lng)
   if (typeof localStorage !== 'undefined') {
-    localStorage.setItem(COOKIE_NAME, lng)
+    localStorage.setItem(STORAGE_KEY, lng)
   }
+  writeCookie(COOKIE_NAME, lng)
   await i18n.changeLanguage(lng)
 }
 
