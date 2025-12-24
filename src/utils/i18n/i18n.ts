@@ -23,7 +23,11 @@ i18n
   .init({
     resources,
     defaultNS,
-    lng: 'en',
+    // Initialize client language from pre-hydration global if present
+    lng:
+      typeof window !== 'undefined' && (window as any).__SSR_LNG
+        ? ((window as any).__SSR_LNG as 'en' | 'ka')
+        : undefined,
     fallbackLng: "en",
     supportedLngs: ["en", "ka"],
     interpolation: { escapeValue: false },
@@ -43,5 +47,10 @@ export const saveLanguage = createServerFn({ method: 'POST' })
       path: '/',
     })
   })
+
+// Expose i18n to window for FunctionOnce script
+if (typeof window !== 'undefined') {
+  ;(window as any).i18n = i18n
+}
 
 export default i18n

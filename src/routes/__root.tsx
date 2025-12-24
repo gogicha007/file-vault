@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header'
 
 import appCss from '../styles.css?url'
 import { ThemeProvider } from '@/context/ThemeContext'
+import { FunctionOnce } from '@/lib/function-once'
 
 import '../utils/i18n/i18n'
 import { setSSRLanguage } from '../utils/i18n/i18n'
@@ -48,11 +49,51 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const locale = i18n.language || 'en'
 
   return (
-    <html lang={locale}>
+    <html
+      lang={locale}
+      className={
+        typeof window !== 'undefined' && (window as any).__SSR_THEME
+          ? ((window as any).__SSR_THEME as 'dark' | 'light')
+          : undefined
+      }
+      suppressHydrationWarning
+    >
       <head>
         <HeadContent />
       </head>
       <body className={`antialiased`}>
+        <FunctionOnce>
+          {() => {
+            const COOKIE_NAME = 'LOCALE'
+            const cookieHeader = document.cookie || ''
+            const pairs = cookieHeader ? cookieHeader.split('; ') : []
+            let locale = 'en'
+            for (const c of pairs) {
+              const [key, ...rest] = c.split('=')
+              if (key === COOKIE_NAME) {
+                locale = rest.join('=') || 'en'
+                break
+              }
+            }
+            ;(window as any).__SSR_LNG = locale
+
+            // Set initial theme before hydration to avoid attribute mismatch
+            try {
+              const storageKey = 'color.theme'
+              const saved = localStorage.getItem(storageKey)
+              const prefersDark = window.matchMedia(
+                '(prefers-color-scheme: dark)',
+              ).matches
+              const shouldDark =
+                saved === 'dark' ||
+                ((saved === null || saved === 'system') && prefersDark)
+              const root = document.documentElement
+              root.classList.remove('light', 'dark')
+              root.classList.add(shouldDark ? 'dark' : 'light')
+              ;(window as any).__SSR_THEME = shouldDark ? 'dark' : 'light'
+            } catch {}
+          }}
+        </FunctionOnce>
         <ThemeProvider>
           <Header />
           {children}
