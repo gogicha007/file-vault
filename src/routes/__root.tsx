@@ -1,4 +1,9 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import {
+  HeadContent,
+  Scripts,
+  createRootRouteWithContext,
+  useRouter,
+} from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
@@ -8,13 +13,21 @@ import appCss from '../styles.css?url'
 import { ThemeProvider } from '@/context/ThemeContext'
 import { FunctionOnce } from '@/lib/function-once'
 
+import { QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import type { QueryClient } from '@tanstack/react-query'
+
 import '../utils/i18n/i18n'
-import { setSSRLanguage } from '../utils/i18n/i18n'
 import { useTranslation } from 'react-i18next'
 
-export const Route = createRootRoute({
-  beforeLoad: async () => {
-    await setSSRLanguage()
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient
+}>()({
+  ssr: false,
+  beforeLoad: async ({ context }) => {
+    context.queryClient.setDefaultOptions({
+      queries: { staleTime: 60_000 },
+    })
   },
   head: () => ({
     meta: [
@@ -48,6 +61,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation()
   const locale = i18n.language || 'en'
 
+  const router = useRouter()
+  const queryClient = router.options.context.queryClient
+
   return (
     <html
       lang={locale}
@@ -64,20 +80,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className={`antialiased`}>
         <FunctionOnce>
           {() => {
-            const COOKIE_NAME = 'LOCALE'
-            const cookieHeader = document.cookie || ''
-            const pairs = cookieHeader ? cookieHeader.split('; ') : []
-            let locale = 'en'
-            for (const c of pairs) {
-              const [key, ...rest] = c.split('=')
-              if (key === COOKIE_NAME) {
-                locale = rest.join('=') || 'en'
-                break
-              }
-            }
-            ;(window as any).__SSR_LNG = locale
-
-            // Set initial theme before hydration to avoid attribute mismatch
             try {
               const storageKey = 'color.theme'
               const saved = localStorage.getItem(storageKey)
@@ -94,10 +96,17 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             } catch {}
           }}
         </FunctionOnce>
-        <ThemeProvider>
-          <Header />
-          {children}
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider>
+            <div className="flex justify-center h-screen">
+              <div className="flex flex-col w-full max-w-7x1">
+                <Header />
+                <main>{children}</main>
+              </div>
+            </div>
+          </ThemeProvider>
+          <ReactQueryDevtools buttonPosition="bottom-left" />
+        </QueryClientProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',

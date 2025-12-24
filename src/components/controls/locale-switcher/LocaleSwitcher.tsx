@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useTransition } from 'react'
 import { Button } from '../../ui/button'
 import { Globe } from 'lucide-react'
-import { saveLanguage } from '@/utils/i18n/i18n'
+import { setLanguage } from '@/utils/i18n/i18n'
 
 type LangCode = 'en' | 'ka'
 
@@ -26,16 +26,16 @@ export default function LocaleSwitcher() {
 
   const locale = normalizeLang(i18n.language || 'en')
 
-  const setLanguage = async (newLang: 'en' | 'ka') => {
+  const changeLanguage = async (newLang: 'en' | 'ka') => {
     startTransition(async () => {
-      await i18n.changeLanguage(newLang)
-      await saveLanguage({ data: newLang })
+      // Persist and switch via shared helper (includes i18n.changeLanguage)
+      await setLanguage(newLang)
     })
   }
   const handleChange = () => {
     console.log(locale)
     startTransition(() => {
-      setLanguage(locale === 'en' ? 'ka' : 'en')
+      changeLanguage(locale === 'en' ? 'ka' : 'en')
     })
   }
 

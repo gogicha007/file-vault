@@ -1,4 +1,4 @@
-import { createContext, use, useEffect, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { FunctionOnce } from '../lib/function-once'
 
 export type ResolvedTheme = 'dark' | 'light'
@@ -31,9 +31,13 @@ export function ThemeProvider({
   defaultTheme = 'system',
   storageKey = 'color.theme',
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() =>
-    isBrowser ? (localStorage.getItem(storageKey) as Theme) : defaultTheme,
-  )
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (!isBrowser) return defaultTheme
+    const saved = localStorage.getItem(storageKey) as Theme | null
+    return saved === 'dark' || saved === 'light' || saved === 'system'
+      ? saved
+      : defaultTheme
+  })
 
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('light')
 
@@ -77,15 +81,17 @@ export function ThemeProvider({
     <ThemeProviderContext value={value}>
       <FunctionOnce param={storageKey}>
         {(storageKey) => {
-          const theme: string | null = localStorage.getItem(storageKey)
-
-          if (
-            theme === 'dark' ||
-            ((theme === null || theme === 'system') &&
-              window.matchMedia('(prefers-color-scheme: dark)').matches)
-          ) {
-            document.documentElement.classList.add('dark')
-          }
+          const saved = localStorage.getItem(storageKey)
+          const prefersDark = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+          ).matches
+          const shouldDark =
+            saved === 'dark' ||
+            ((saved === null || saved === 'system') && prefersDark)
+          const root = document.documentElement
+          root.classList.remove('light', 'dark')
+          root.classList.add(shouldDark ? 'dark' : 'light')
+          ;(window as any).__SSR_THEME = shouldDark ? 'dark' : 'light'
         }}
       </FunctionOnce>
       {children}
@@ -95,7 +101,7 @@ export function ThemeProvider({
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
-  const context = use(ThemeProviderContext)
+  const context = useContext(ThemeProviderContext)
 
   if (context === undefined)
     throw new Error('useTheme must be used within a ThemeProvider')
