@@ -42,7 +42,7 @@ export default function LocaleSwitcher() {
         className={`${isPending ? 'pointer-events-none' : 'cursor-pointer'}`}
       >
         <Globe className="h-4 w-4" />
-        <span className="ml-1 text-xs font-medium" suppressHydrationWarning>
+        <span className="ml-1 text-xs font-medium">
           {LANG_META[locale].label}
         </span>
       </Button>

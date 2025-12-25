@@ -27,7 +27,7 @@ function RootComponent() {
   return (
     <Providers>
       <div className="flex justify-center h-screen">
-        <div className="flex flex-col w-full max-w-7x1">
+        <div className="flex flex-col w-full max-w-7xl">
           <Header />
           <main>
             <Outlet />

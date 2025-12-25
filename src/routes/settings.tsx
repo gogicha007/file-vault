@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import Settings from '@/features/settings/Settings'
 
 export const Route = createFileRoute('/settings')({
   ssr: false,
@@ -6,5 +7,5 @@ export const Route = createFileRoute('/settings')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/settings"!</div>
+  return <Settings />
 }

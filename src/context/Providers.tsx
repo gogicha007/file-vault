@@ -3,6 +3,7 @@ import { ThemeProvider } from './ThemeContext'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useRouter } from '@tanstack/react-router'
+import { ApiContextProvider } from './ApiContext'
 
 export type ProvidersProps = PropsWithChildren<{}>
 
@@ -12,7 +13,9 @@ export function Providers({ children }: ProvidersProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-        <ThemeProvider>{children}</ThemeProvider>
+      <ThemeProvider>
+        <ApiContextProvider>{children}</ApiContextProvider>
+      </ThemeProvider>
       <ReactQueryDevtools buttonPosition="bottom-left" />
     </QueryClientProvider>
   )
