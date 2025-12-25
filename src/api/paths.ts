@@ -1,4 +1,3 @@
-import { prisma } from '@/db'
 import type { Path } from '@prisma/client'
 
 export interface CreatePathInput {
@@ -20,11 +19,11 @@ export interface UpdatePathInput {
  */
 export async function getPaths(): Promise<Path[]> {
   try {
-    const paths = await prisma.path.findMany({
-      where: { isActive: true },
-      orderBy: { name: 'asc' },
-    })
-    return paths
+    const result = await window.electron.invoke('db:getPaths')
+    if (!result.success) {
+      throw new Error(result.error)
+    }
+    return result.data
   } catch (error) {
     console.error('Failed to fetch paths:', error)
     throw new Error('Failed to fetch paths')
@@ -40,16 +39,11 @@ export async function createPath(input: CreatePathInput): Promise<Path> {
       throw new Error('Path and userId are required')
     }
 
-    const newPath = await prisma.path.create({
-      data: {
-        path: input.path,
-        name: input.name || null,
-        description: input.description || null,
-        userId: input.userId,
-      },
-    })
-
-    return newPath
+    const result = await window.electron.invoke('db:createPath', input)
+    if (!result.success) {
+      throw new Error(result.error)
+    }
+    return result.data
   } catch (error) {
     console.error('Failed to create path:', error)
     throw new Error('Failed to create path')
@@ -65,16 +59,11 @@ export async function updatePath(input: UpdatePathInput): Promise<Path> {
       throw new Error('Path ID is required')
     }
 
-    const updatedPath = await prisma.path.update({
-      where: { id: input.id },
-      data: {
-        ...(input.path && { path: input.path }),
-        ...(input.name !== undefined && { name: input.name }),
-        ...(input.description !== undefined && { description: input.description }),
-      },
-    })
-
-    return updatedPath
+    const result = await window.electron.invoke('db:updatePath', input)
+    if (!result.success) {
+      throw new Error(result.error)
+    }
+    return result.data
   } catch (error) {
     console.error('Failed to update path:', error)
     throw new Error('Failed to update path')
@@ -90,17 +79,15 @@ export async function deletePath(id: string): Promise<Path> {
       throw new Error('Path ID is required')
     }
 
-    const deletedPath = await prisma.path.delete({
-      where: { id },
-    })
-
-    return deletedPath
-  } catch (error: any) {
-    // Prisma error code for record not found
-    if (error?.code === 'P2025') {
-      throw new Error('Path not found')
+    const result = await window.electron.invoke('db:deletePath', id)
+    if (!result.success) {
+      throw new Error(result.error)
     }
-
+    return result.data
+  } catch (error: any) {
+    if (error?.message === 'Path not found') {
+      throw error
+    }
     console.error('Failed to delete path:', error)
     throw new Error('Failed to delete path')
   }
