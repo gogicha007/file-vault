@@ -16,7 +16,7 @@ const MainMenu = () => {
           to={item.href}
           className="text-sm font-medium text-foreground hover:text-primary transition-colors"
         >
-          <span suppressHydrationWarning>{item.label}</span>
+          <span >{item.label}</span>
         </Link>
       ))}
     </nav>

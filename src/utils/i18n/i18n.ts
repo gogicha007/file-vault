@@ -19,33 +19,22 @@ function getInitialLng(): 'en' | 'ka' {
       ? (localStorage.getItem(STORAGE_KEY) as 'en' | 'ka' | null)
       : null
 
-  if (saved === 'ka' ) return 'ka'
-  if (saved === 'en' ) return 'en'
-  // fallback to browser
+  if (saved === 'ka') return 'ka'
+  if (saved === 'en') return 'en'
   const nav =
     typeof navigator !== 'undefined' ? navigator.language.toLowerCase() : 'en'
 
-  console.log('local storage', saved)
   return nav.startsWith('ka') ? 'ka' : 'en'
 }
 
-let initialized = false
-export function initI18n(initialLng?: 'en' | 'ka') {
-  if (initialized) return
-  const lng = initialLng ?? (isBrowser ? getInitialLng() : 'en')
-  i18n.use(initReactI18next).init({
-    resources,
-    defaultNS,
-    lng,
-    // fallbackLng: 'en',
-    supportedLngs: ['en', 'ka'],
-    interpolation: { escapeValue: false },
-  })
-  initialized = true
-}
-
-// Initialize in all environments; on server it uses a safe default ('en')
-initI18n()
+const lng = isBrowser ? getInitialLng() : 'en'
+i18n.use(initReactI18next).init({
+  resources,
+  defaultNS,
+  lng,
+  supportedLngs: ['en', 'ka'],
+  interpolation: { escapeValue: false },
+})
 
 export async function setLanguage(lng: 'en' | 'ka') {
   if (typeof localStorage !== 'undefined') {
@@ -54,9 +43,5 @@ export async function setLanguage(lng: 'en' | 'ka') {
   await i18n.changeLanguage(lng)
 }
 
-// Expose i18n for debugging if needed
-if (typeof window !== 'undefined') {
-  ;(window as any).i18n = i18n
-}
 
 export default i18n
