@@ -1,6 +1,6 @@
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
-// import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-// import { TanStackDevtools } from '@tanstack/react-devtools'
+import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
+import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import Header from '@/components/layout/Header'
 import Providers from '@/context/Providers'
@@ -27,14 +27,14 @@ function RootComponent() {
   return (
     <Providers>
       <div className="flex justify-center h-screen">
-        <div className="flex flex-col w-full max-w-7xl">
+        <div className="flex flex-col w-full max-w-6xl">
           <Header />
           <main>
             <Outlet />
           </main>
         </div>
       </div>
-      {/* <TanStackDevtools
+      <TanStackDevtools
         config={{
           position: 'bottom-right',
         }}
@@ -44,7 +44,7 @@ function RootComponent() {
             render: <TanStackRouterDevtoolsPanel />,
           },
         ]}
-      /> */}
+      />
     </Providers>
   )
 }
