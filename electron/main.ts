@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import { prisma } from '../src/db'
+import { registerUser, loginUser, getCurrentUser, logoutUser } from './auth'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -28,6 +29,20 @@ function createWindow() {
     mainWindow = null
   })
 }
+// Auth handlers
+ipcMain.handle('auth:register', async (_, email: string, password: string, name?: string) => {
+  return await registerUser(email, password, name)
+})
+
+ipcMain.handle('auth:login', async (_, email: string, password: string) => {
+  return await loginUser(email, password)
+})
+
+ipcMain.handle('auth:getCurrentUser', async () => {
+  return await getCurrentUser()
+})
+
+ipcMain.handle('auth:logout', async () => logoutUser())
 
 // Database IPC Handlers
 ipcMain.handle('db:getPaths', async () => {

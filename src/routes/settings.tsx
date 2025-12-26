@@ -3,9 +3,9 @@ import Settings from '@/features/settings/Settings'
 
 export const Route = createFileRoute('/settings')({
   ssr: false,
-  component: RouteComponent,
+  component: SettingsPage,
 })
 
-function RouteComponent() {
+function SettingsPage() {
   return <Settings />
 }

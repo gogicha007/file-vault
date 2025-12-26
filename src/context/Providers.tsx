@@ -4,6 +4,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useRouter } from '@tanstack/react-router'
 import { ApiContextProvider } from './ApiContext'
+import { AuthProvider } from './AuthContext'
 
 export type ProvidersProps = PropsWithChildren<{}>
 
@@ -14,7 +15,9 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <ApiContextProvider>{children}</ApiContextProvider>
+        <AuthProvider>
+          <ApiContextProvider>{children}</ApiContextProvider>
+        </AuthProvider>
       </ThemeProvider>
       <ReactQueryDevtools buttonPosition="bottom-left" />
     </QueryClientProvider>

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 const path_1 = __importDefault(require("path"));
 const db_1 = require("../src/db");
+const auth_1 = require("./auth");
 let mainWindow = null;
 function createWindow() {
     mainWindow = new electron_1.BrowserWindow({
@@ -30,6 +31,17 @@ function createWindow() {
         mainWindow = null;
     });
 }
+// Auth handlers
+electron_1.ipcMain.handle('auth:register', async (_, email, password, name) => {
+    return await (0, auth_1.registerUser)(email, password, name);
+});
+electron_1.ipcMain.handle('auth:login', async (_, email, password) => {
+    return await (0, auth_1.loginUser)(email, password);
+});
+electron_1.ipcMain.handle('auth:getCurrentUser', async () => {
+    return await (0, auth_1.getCurrentUser)();
+});
+electron_1.ipcMain.handle('auth:logout', async () => (0, auth_1.logoutUser)());
 // Database IPC Handlers
 electron_1.ipcMain.handle('db:getPaths', async () => {
     try {
