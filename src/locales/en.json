@@ -1,5 +1,9 @@
 {
-  "AuthBar": { "signin": "Sign In", "signup": "Sign Up", "signout": "Sign Out" },
+  "AuthBar": {
+    "signin": "Sign In",
+    "signup": "Sign Up",
+    "signout": "Sign Out"
+  },
   "FileSearch": {
     "title": "AI powered File search",
     "find_tagline": "Find Your Files in Seconds",
@@ -96,12 +100,29 @@
     "ka": "ქართული",
     "label": "Language"
   },
+
+  "Login": {
+    "login": "Login",
+    "fail": "Login failed",
+    "placeholder_email": "Email",
+    "placeholder_password": "Password"
+  },
+
+  "Register": {
+    "fail": "Registration failed",
+    "placeholder_name": "Name (optional)",
+    "placeholder_email": "Email",
+    "placeholder_password": "Password",
+    "register": "Register"
+  },
+
   "MainMenu": {
     "title": "Home",
     "header": "Findly",
     "file_search": "Search for files",
     "settings": "Settings"
   },
+
   "Settings": {
     "title": "Settings",
     "sub_title": "Manage your paths and descriptions to help AI find your files faster",

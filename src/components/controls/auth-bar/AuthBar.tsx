@@ -13,7 +13,7 @@ const AuthBar = () => {
       <div className="flex items-center gap-2 ml-2">
         <span className="text-sm">{user.name || user.email}</span>
         <Button variant="ghost" size="sm" onClick={logout}>
-          <span suppressHydrationWarning>Logout</span>
+          <span suppressHydrationWarning>{tAB("signout")}</span>
         </Button>
       </div>
     )
