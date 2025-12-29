@@ -102,14 +102,19 @@
   },
 
   "Login": {
-    "login": "Login",
+    "email": "Email",
     "fail": "Login failed",
+    "login": "Login",
+    "password": "Password",
     "placeholder_email": "Email",
     "placeholder_password": "Password"
   },
 
   "Register": {
+    "email": "Email",
     "fail": "Registration failed",
+    "name": "Name",
+    "password": "Password",
     "placeholder_name": "Name (optional)",
     "placeholder_email": "Email",
     "placeholder_password": "Password",

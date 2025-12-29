@@ -98,12 +98,17 @@
   "Login": {
     "login": "შესვლა",
     "fail": "შესვლა ვერ მოხერხდა",
+    "email": "ელ.ფოსტა",
+    "password": "პაროლი",
     "placeholder_email": "ელ.ფოსტა",
     "placeholder_password": "პაროლი"
   },
 
   "Register": {
     "fail": "რეგისტრაცია ვერ მოხერხდა",
+    "email": "ელ.ფოსტა",
+    "name": "სახელი",
+    "password": "პაროლი",
     "placeholder_name": "სახელი (არასავალდებულო)",
     "placeholder_email": "ელ.ფოსტა",
     "placeholder_password": "პაროლი",
