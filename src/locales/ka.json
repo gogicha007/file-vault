@@ -95,6 +95,20 @@
     "ka": "ქართული",
     "label": "ენა"
   },
+  "Login": {
+    "login": "შესვლა",
+    "fail": "შესვლა ვერ მოხერხდა",
+    "placeholder_email": "ელ.ფოსტა",
+    "placeholder_password": "პაროლი"
+  },
+
+  "Register": {
+    "fail": "რეგისტრაცია ვერ მოხერხდა",
+    "placeholder_name": "სახელი (არასავალდებულო)",
+    "placeholder_email": "ელ.ფოსტა",
+    "placeholder_password": "პაროლი",
+    "register": "რეგისტრაცია"
+  },
   "MainMenu": {
     "title": "მთავარი",
     "header": "Findly",
