@@ -15,6 +15,9 @@ electron_1.contextBridge.exposeInMainWorld('electronAPI', {
         updatePath: (id, data) => electron_1.ipcRenderer.invoke('db:updatePath', id, data),
         deletePath: (id) => electron_1.ipcRenderer.invoke('db:deletePath', id),
     },
+    debug: {
+        authStore: () => electron_1.ipcRenderer.invoke('debug:authStore'),
+    },
 });
 // the ipcRenderer without exposing the entire object
 electron_1.contextBridge.exposeInMainWorld('electron', {
@@ -28,6 +31,7 @@ electron_1.contextBridge.exposeInMainWorld('electron', {
             'auth:login',
             'auth:getCurrentUser',
             'auth:logout',
+            'debug:authStore',
         ];
         if (validChannels.includes(channel)) {
             return electron_1.ipcRenderer.invoke(channel, ...args);

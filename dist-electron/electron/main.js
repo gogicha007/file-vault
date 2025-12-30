@@ -42,6 +42,10 @@ electron_1.ipcMain.handle('auth:getCurrentUser', async () => {
     return await (0, auth_1.getCurrentUser)();
 });
 electron_1.ipcMain.handle('auth:logout', async () => (0, auth_1.logoutUser)());
+// Debug: expose auth store snapshot (path + data)
+electron_1.ipcMain.handle('debug:authStore', async () => {
+    return (0, auth_1.getAuthStoreSnapshot)();
+});
 // Database IPC Handlers
 electron_1.ipcMain.handle('db:getPaths', async () => {
     try {

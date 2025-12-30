@@ -7,6 +7,7 @@ exports.registerUser = registerUser;
 exports.loginUser = loginUser;
 exports.getCurrentUser = getCurrentUser;
 exports.logoutUser = logoutUser;
+exports.getAuthStoreSnapshot = getAuthStoreSnapshot;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const electron_store_1 = __importDefault(require("electron-store"));
 const db_1 = require("../src/db");
@@ -52,5 +53,14 @@ async function getCurrentUser() {
     return user;
 }
 function logoutUser() {
-    store.delete('userId');
+    // Delete key using set(undefined) to satisfy TS typings
+    store.set('userId', undefined);
+}
+// Debug helper: snapshot store path and data for DevTools inspection
+function getAuthStoreSnapshot() {
+    const anyStore = store;
+    return {
+        path: anyStore.path,
+        data: anyStore.store || {},
+    };
 }

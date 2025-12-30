@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import { prisma } from '../src/db'
-import { registerUser, loginUser, getCurrentUser, logoutUser } from './auth'
+import { registerUser, loginUser, getCurrentUser, logoutUser, getAuthStoreSnapshot } from './auth'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -43,6 +43,11 @@ ipcMain.handle('auth:getCurrentUser', async () => {
 })
 
 ipcMain.handle('auth:logout', async () => logoutUser())
+
+// Debug: expose auth store snapshot (path + data)
+ipcMain.handle('debug:authStore', async () => {
+  return getAuthStoreSnapshot()
+})
 
 // Database IPC Handlers
 ipcMain.handle('db:getPaths', async () => {

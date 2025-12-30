@@ -18,6 +18,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     updatePath: (id: string, data: any) => ipcRenderer.invoke('db:updatePath', id, data),
     deletePath: (id: string) => ipcRenderer.invoke('db:deletePath', id),
   },
+  debug: {
+    authStore: () => ipcRenderer.invoke('debug:authStore'),
+  },
 })
 
 
@@ -33,6 +36,7 @@ contextBridge.exposeInMainWorld('electron', {
       'auth:login',
       'auth:getCurrentUser',
       'auth:logout',
+      'debug:authStore',
     ]
     if (validChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, ...args)
