@@ -64,15 +64,19 @@ export async function getCurrentUser() {
 }
 
 export function logoutUser() {
-    // Delete key using set(undefined) to satisfy TS typings
-    store.set('userId', undefined as any)
+    store.delete('userId')
 }
 
 // Debug helper: snapshot store path and data for DevTools inspection
 export function getAuthStoreSnapshot() {
-    const anyStore = store as any
+    type InternalAuthStore = Store<AuthStore> & {
+        path: string
+        store: Record<string, unknown>
+    }
+
+    const internalStore = store as InternalAuthStore
     return {
-        path: anyStore.path as string,
-        data: (anyStore.store as Record<string, unknown>) || {},
+        path: internalStore.path,
+        data: internalStore.store,
     }
 }

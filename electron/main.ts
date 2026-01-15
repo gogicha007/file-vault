@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import { prisma } from '../src/db'
 import { registerUser, loginUser, getCurrentUser, logoutUser, getAuthStoreSnapshot } from './auth'
+import { handleFindFile } from '../src/api/find-file'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -124,6 +125,11 @@ ipcMain.handle('db:deletePath', async (_, id) => {
     console.error('Failed to delete path:', error)
     return { success: false, error: 'Failed to delete path' }
   }
+})
+
+// AI-powered file search & open
+ipcMain.handle('ai:find-file', async (_event, args) => {
+  return await handleFindFile(args)
 })
 
 // App lifecycle

@@ -14,9 +14,6 @@ export interface UpdatePathInput {
   description?: string
 }
 
-/**
- * Get all active paths
- */
 export async function getPaths(): Promise<Path[]> {
   try {
     const result = await window.electron.invoke('db:getPaths')
@@ -30,12 +27,9 @@ export async function getPaths(): Promise<Path[]> {
   }
 }
 
-/**
- * Create a new path
- */
 export async function createPath(input: CreatePathInput): Promise<Path> {
   try {
-    if (!input.path || !input.userId) {
+    if (!input.path || !input.userId || input.userId.trim() === '') {
       throw new Error('Path and userId are required')
     }
 

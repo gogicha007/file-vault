@@ -37,6 +37,7 @@ contextBridge.exposeInMainWorld('electron', {
       'auth:getCurrentUser',
       'auth:logout',
       'debug:authStore',
+      'ai:find-file',
     ]
     if (validChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, ...args)

@@ -31,9 +31,23 @@ export function AuthProvider({ children }: PropsWithChildren) {
     checkAuth()
   }, [])
 
+  function getAuthApi() {
+    const authApi = window.electronAPI?.auth
+    if (!authApi) {
+      throw new Error('Electron auth API is not available. Are you running inside Electron?')
+    }
+    return authApi
+  }
+
   async function checkAuth() {
     try {
-      const currentUser = await window.electronAPI.auth.getCurrentUser()
+      const currentUser = await window.electronAPI?.auth?.getCurrentUser?.()
+      if (!currentUser) {
+        setUser(null)
+        return
+      }
+
+      console.log('current user', currentUser)
       setUser(currentUser)
     } catch (error) {
       console.error('Auth check failed:', error)
@@ -44,17 +58,20 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }
 
   async function login(email: string, password: string) {
-    const user = await window.electronAPI.auth.login(email, password)
+    const auth = getAuthApi()
+    const user = await auth.login(email, password)
     setUser(user)
   }
 
   async function register(email: string, password: string, name?: string) {
-    const user = await window.electronAPI.auth.register(email, password, name)
+    const auth = getAuthApi()
+    const user = await auth.register(email, password, name)
     setUser(user)
   }
 
   async function logout() {
-    await window.electronAPI.auth.logout()
+    const auth = getAuthApi()
+    await auth.logout()
     setUser(null)
   }
 

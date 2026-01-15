@@ -161,6 +161,7 @@
           "label": "Path added",
           "description": "The path has been successfully added"
         },
+        "path_add_failed": "Path add failed",
         "path_deleted": {
           "label": "Path deleted",
           "description": "The pash has been removed"
@@ -170,6 +171,7 @@
           "description": "The pash has been updated"
         }
       }
-    }
+    },
+    "unauthorized": "Please authorize to see the Settings page"
   }
 }

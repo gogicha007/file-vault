@@ -1,20 +1,27 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { PathItem } from "../Settings";
 import { settingsApi } from "../api/settingsApi";
+import { useAuth } from "@/context/AuthContext";
 
 export const useSettingsApi = () => {
+  const { user } = useAuth()
   const queryClient = useQueryClient();
-  const userId = "0ec97245-f7ab-472e-bd19-52ca30c72fb9";
+  const userId = user?.id ?? null;
 
-  const { mutate: addPath, isPending: isAdding } = useMutation({
+  const { mutate: addPath, isPending: isAdding, isError: isAddPathError, error: addPathError } = useMutation({
     mutationKey: ["createPath"],
-    mutationFn: (data: PathItem) => settingsApi.addPath(data, userId),
+    mutationFn: (data: PathItem) => {
+      if (!userId) {
+        throw new Error("User must be logged in to add a path")
+      }
+      return settingsApi.addPath(data, userId)
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["AllPaths"] });
       console.log("Path created successfully");
     },
-    onError: () => {
-      console.log("Failed to create path");
+    onError: (error) => {
+      console.error("Failed to create path", error.message);
     },
   });
 
@@ -58,6 +65,8 @@ export const useSettingsApi = () => {
     deletePath,
     pathsData,
     isPending: isAdding || isUpdating || isDeleting || isGetting,
+    isError: isAddPathError,
+    addPathError,
     isGetPathsError,
     getPathsError,
   };

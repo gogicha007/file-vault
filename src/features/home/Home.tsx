@@ -30,15 +30,10 @@ const Home = () => {
     setIsSearching(true)
 
     try {
-      const response = await fetch('/api/find-file', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: searchQuery, paths }),
+      const result = await window.electron.invoke('ai:find-file', {
+        message: searchQuery,
+        paths,
       })
-
-      const result = await response.json()
       setSearchResults(result)
     } catch (error) {
       console.error('Search failed', error)
@@ -62,18 +57,10 @@ const Home = () => {
 
     setIsSearching(true)
     try {
-      const response = await fetch('/api/find-file', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'open',
-          filePath: selectedFile.path,
-        }),
+      const result = await window.electron.invoke('ai:find-file', {
+        action: 'open',
+        filePath: selectedFile.path,
       })
-
-      const result = await response.json()
       setSearchResults({
         intent: 'open',
         response:
@@ -98,18 +85,10 @@ const Home = () => {
   const handleOpenFolder = async (file: FileResult) => {
     setIsSearching(true)
     try {
-      const response = await fetch('/api/find-file', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'openFolder',
-          filePath: file.path,
-        }),
+      const result = await window.electron.invoke('ai:find-file', {
+        action: 'openFolder',
+        filePath: file.path,
       })
-
-      const result = await response.json()
       setSearchResults({
         intent: 'open',
         response:

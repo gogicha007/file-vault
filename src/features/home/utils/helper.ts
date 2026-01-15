@@ -2,7 +2,13 @@ import * as fs from "fs";
 import * as path from "path";
 import { exec } from "child_process";
 import { promisify } from "util";
-import { PathItem } from "../../settings/Settings";
+
+// Minimal PathItem shape used on the backend side
+interface PathItem {
+  id?: string;
+  path: string;
+  description?: string | null;
+}
 
 const execAsync = promisify(exec);
 
@@ -166,7 +172,7 @@ export async function searchFiles(query: string, fileTypes: string[] = [], paths
   const actualFileTypes = fileTypes.filter((type) => type !== "folder");
 
   // Default search paths - be more specific and avoid problematic directories
-  const username = process.env.USERNAME || "user";
+  // const username = process.env.USERNAME || "user";
   const pathsToSearch = paths.map((item) => item.path);
   // const pathsToSearch = [
   //   `C:\\Users\\${username}\\Documents`,

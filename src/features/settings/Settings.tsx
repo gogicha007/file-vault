@@ -73,6 +73,11 @@ const Settings = () => {
           description: tS('paths.toasts.path_added.description'),
         })
       },
+      onError: (error)=>{
+        toast(tS('paths.toasts.path_add_failed'), {
+          description: error.message
+        })
+      }
     })
   }
 
@@ -133,7 +138,7 @@ const Settings = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-4xl mx-auto mt-4 space-y-8">
       <div>
         <h1 className="text-3xl font-bold mb-2">{tS('title')}</h1>
         <p className="text-muted-foreground">{tS('sub_title')}</p>
