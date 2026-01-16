@@ -3,14 +3,12 @@ import { openai } from "@ai-sdk/openai";
 import i18n from "../utils/i18n/i18n";
 import { searchFiles, openFile, openFolder } from "../features/home/utils/helper";
 
-// Minimal shape of a path item used by backend search logic
 interface PathItem {
   id?: string;
   path: string;
   description?: string | null;
 }
 
-// Request/response types for the find-file logic
 export interface FindFileRequest {
   message?: string;
   action?: "open" | "openFolder" | "search";
@@ -32,12 +30,17 @@ export interface FindFileResponse {
 }
 
 const tR = (key: string) => i18n.t(`FileSearch.route.${key}`);
+
 export async function handleFindFile({
   message,
   action,
   filePath,
   paths,
 }: FindFileRequest): Promise<FindFileResponse> {
+
+  console.log('action', action)
+  console.log('paths', paths)
+  
   try {
     // Handle direct file opening
     if (action === "open" && filePath) {
@@ -111,6 +114,7 @@ export async function handleFindFile({
         `,
       });
       aiText = aiResponse.text;
+      console.log("aiText", aiResponse.content)
     } catch (aiError) {
       console.error("AI model error, falling back to basic parsing:", aiError);
       // Fallback to basic keyword extraction without AI
@@ -141,6 +145,7 @@ export async function handleFindFile({
         .split(",")
         .map((t) => t.trim()) || [];
     // const intent = intentLine?.replace('INTENT:', '').trim() || 'search';
+
 
     // Search for files
     const foundFiles = await searchFiles(keywords, fileTypes, paths);

@@ -171,15 +171,7 @@ export async function searchFiles(query: string, fileTypes: string[] = [], paths
   // If searching for folders, filter out "folder" from file types but remember we want folders
   const actualFileTypes = fileTypes.filter((type) => type !== "folder");
 
-  // Default search paths - be more specific and avoid problematic directories
-  // const username = process.env.USERNAME || "user";
   const pathsToSearch = paths.map((item) => item.path);
-  // const pathsToSearch = [
-  //   `C:\\Users\\${username}\\Documents`,
-  //   `C:\\Users\\${username}\\Desktop`,
-  //   `C:\\Users\\${username}\\Downloads`,
-  //   // Add specific subdirectories if they exist and are accessible
-  // ];
 
   console.log(
     `[searchFiles] Starting search for query: "${query}" in paths:`,
