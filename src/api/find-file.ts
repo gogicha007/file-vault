@@ -2,8 +2,9 @@ import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
 import i18n from "../utils/i18n/i18n";
 import { searchFiles, openFile, openFolder } from "../features/home/utils/helper";
+import { getRelevantPaths } from "@/features/home/utils/getRelevantPaths";
 
-interface PathItem {
+export interface PathItem {
   id?: string;
   path: string;
   description?: string | null;
@@ -40,7 +41,7 @@ export async function handleFindFile({
 
   console.log('action', action)
   console.log('paths', paths)
-  
+
   try {
     // Handle direct file opening
     if (action === "open" && filePath) {
@@ -138,6 +139,10 @@ export async function handleFindFile({
     // const intentLine = lines.find(line => line.startsWith('INTENT:'));
 
     const keywords = keywordsLine?.replace("KEYWORDS:", "").trim() || "";
+    const keywordsList = keywords.split(",").map((k) => k.trim())
+
+    const candidatePaths = getRelevantPaths(paths, keywordsList)
+
     const fileTypes =
       typesLine
         ?.replace("TYPES:", "")
@@ -148,7 +153,7 @@ export async function handleFindFile({
 
 
     // Search for files
-    const foundFiles = await searchFiles(keywords, fileTypes, paths);
+    const foundFiles = await searchFiles(keywords, fileTypes, candidatePaths);
 
     let response = "";
     if (foundFiles.length === 0) {
