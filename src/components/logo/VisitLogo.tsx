@@ -5,7 +5,7 @@ type VisitLogoProps = React.SVGProps<SVGSVGElement> & { color?: string };
 export const VisitLogo = ({ color, className, style, ...props }: VisitLogoProps) => (
   <svg
     width="125"
-    height="auto"
+    height="14"
     viewBox="0 0 66 14"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"

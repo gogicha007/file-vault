@@ -7,9 +7,7 @@ const Footer = () => {
         window.electron.invoke('open-external', 'https://visit.ge')
         return
       }
-    } catch {
-      // fall back to window.open below
-    }
+    } catch {}
 
     window.open('https://visit.ge', '_blank', 'noopener,noreferrer')
   }
@@ -22,7 +20,7 @@ const Footer = () => {
           onClick={handleVisitClick}
           className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
         >
-          <VisitLogo style={{ color: 'var(--primary)' }} />
+          <VisitLogo className='h-6' style={{ color: 'var(--primary)' }} />
         </button>
       </div>
     </footer>
