@@ -1,8 +1,7 @@
 import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
 import i18n from "../utils/i18n/i18n";
-import { searchFiles, openFile, openFolder } from "../features/home/utils/helper";
-import { getRelevantPaths } from "@/features/home/utils/getRelevantPaths";
+import { searchFiles, openFile, openFolder, getRelevantPaths } from "../features/home/utils/helper";
 
 export interface PathItem {
   id?: string;

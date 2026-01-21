@@ -2,13 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { exec } from "child_process";
 import { promisify } from "util";
+import { PathItem } from "@/api/find-file";
 
-// Minimal PathItem shape used on the backend side
-interface PathItem {
-  id?: string;
-  path: string;
-  description?: string | null;
-}
 
 const execAsync = promisify(exec);
 
@@ -349,4 +344,26 @@ export async function openFolder(filePath: string) {
       };
     }
   }
+}
+
+export function getRelevantPaths(paths: PathItem[], keywords: string[]): PathItem[] {
+    
+    const loweredKeywords = keywords
+        .map((k) => k.toLowerCase().trim())
+        .filter((k) => k.length > 0)
+
+    const scored = paths.map((p) => {
+        const text = `${p.path} ${p.description ?? ''}`.toLowerCase()
+        let score = 0
+        for (const kw of loweredKeywords) {
+            if (text.includes(kw)) score += 1
+        }
+        return { path: p, score }
+    })
+
+    scored.sort((a, b) => b.score - a.score)
+
+    const filtered = scored.filter((s) => s.score > 0).map((s) => s.path)
+
+    return filtered.length > 0 ? filtered : paths
 }

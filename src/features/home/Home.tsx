@@ -117,7 +117,7 @@ const Home = () => {
   }
 
   return (
-    <div className="container py-12">
+    <div className="container py-12 flex flex-col gap-3">
       {/* search input*/}
       <div className="max-w-3xl mx-auto text-center space-y-8">
         <div className="space-y-4">
@@ -173,7 +173,7 @@ const Home = () => {
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 {tFS('search_results.found_files')}
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-3 overflow-y-auto">
                 {searchResults.files.map((file, index) => (
                   <div
                     key={index}

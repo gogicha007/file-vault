@@ -3,6 +3,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/footer/Footer'
 import Providers from '@/context/Providers'
 
 import type { QueryClient } from '@tanstack/react-query'
@@ -29,9 +30,10 @@ function RootComponent() {
       <div className="flex justify-center h-screen">
         <div className="flex flex-col w-full max-w-6xl">
           <Header />
-          <main>
+          <main className='relative flex flex-grow'>
             <Outlet />
           </main>
+          <Footer />
         </div>
       </div>
       <TanStackDevtools

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import path from 'path'
 import { prisma } from '../src/db'
 import { registerUser, loginUser, getCurrentUser, logoutUser, getAuthStoreSnapshot } from './auth'
@@ -130,6 +130,12 @@ ipcMain.handle('db:deletePath', async (_, id) => {
 // AI-powered file search & open
 ipcMain.handle('ai:find-file', async (_event, args) => {
   return await handleFindFile(args)
+})
+
+// Open external links in the user's default browser
+ipcMain.handle('open-external', async (_event, url: string) => {
+  if (!url) return
+  await shell.openExternal(url)
 })
 
 // App lifecycle
