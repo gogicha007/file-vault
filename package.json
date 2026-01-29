@@ -87,12 +87,25 @@
   "build": {
     "appId": "com.filevault.app",
     "productName": "FileVault",
+    "asar": false,
     "directories": {
       "output": "release"
     },
     "files": [
       "dist/**/*",
-      "dist-electron/**/*"
+      "dist-electron/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "node_modules/.prisma",
+        "to": "app/node_modules/.prisma"
+      }
+    ],
+    "asarUnpack": [
+      "node_modules/@prisma/client/**",
+      "node_modules/.prisma/**"
     ],
     "win": {
       "target": [

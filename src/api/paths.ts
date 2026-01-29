@@ -23,6 +23,13 @@ export async function getPaths(): Promise<Path[]> {
     return result.data
   } catch (error) {
     console.error('Failed to fetch paths:', error)
+
+    // Re-throw the original error when possible so that
+    // DevTools shows the real cause (e.g. Prisma or DB issues)
+    if (error instanceof Error) {
+      throw error
+    }
+
     throw new Error('Failed to fetch paths')
   }
 }

@@ -23,7 +23,17 @@ function createWindow() {
     mainWindow.loadURL('http://localhost:3000')
     mainWindow.webContents.openDevTools()
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'))
+    // In production, the compiled main file lives in dist-electron/electron,
+    // while the Vite build output (index.html) lives in dist at the app root.
+    // __dirname === resources/app/dist-electron/electron in the packaged app.
+    // So we need to go two levels up, then into dist/index.html.
+    const indexPath = path.join(__dirname, '..', '..', 'dist', 'index.html')
+    mainWindow.loadFile(indexPath)
+
+    // Temporarily open DevTools in production to help debug
+    // any runtime errors causing a white screen. Remove this
+    // once the app is stable.
+    mainWindow.webContents.openDevTools()
   }
 
   mainWindow.on('closed', () => {
