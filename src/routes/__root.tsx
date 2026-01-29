@@ -23,7 +23,6 @@ export const Route = createRootRouteWithContext<{
   },
   component: RootComponent,
 })
-
 function RootComponent() {
   return (
     <Providers>
