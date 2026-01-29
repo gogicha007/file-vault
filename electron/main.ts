@@ -29,11 +29,6 @@ function createWindow() {
     // So we need to go two levels up, then into dist/index.html.
     const indexPath = path.join(__dirname, '..', '..', 'dist', 'index.html')
     mainWindow.loadFile(indexPath)
-
-    // Temporarily open DevTools in production to help debug
-    // any runtime errors causing a white screen. Remove this
-    // once the app is stable.
-    mainWindow.webContents.openDevTools()
   }
 
   mainWindow.on('closed', () => {
