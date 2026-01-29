@@ -1,7 +1,4 @@
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
-
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/footer/Footer'
 import Providers from '@/context/Providers'
@@ -29,23 +26,12 @@ function RootComponent() {
       <div className="flex justify-center h-screen">
         <div className="flex flex-col w-full max-w-6xl">
           <Header />
-          <main className='relative flex flex-grow'>
+          <main className="relative flex flex-grow">
             <Outlet />
           </main>
           <Footer />
         </div>
       </div>
-      <TanStackDevtools
-        config={{
-          position: 'bottom-right',
-        }}
-        plugins={[
-          {
-            name: 'Tanstack Router',
-            render: <TanStackRouterDevtoolsPanel />,
-          },
-        ]}
-      />
     </Providers>
   )
 }
