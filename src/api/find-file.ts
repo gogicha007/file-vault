@@ -38,9 +38,6 @@ export async function handleFindFile({
   paths,
 }: FindFileRequest): Promise<FindFileResponse> {
 
-  console.log('action', action)
-  console.log('paths', paths)
-
   try {
     // Handle direct file opening
     if (action === "open" && filePath) {
@@ -88,6 +85,7 @@ export async function handleFindFile({
 
     // Handle file search using AI to extract parameters
     let aiText: string;
+    let aiFallbackNote: string | null = null;
     try {
       const aiResponse = await generateText({
         model: openai("gpt-4o-mini"),
@@ -116,7 +114,25 @@ export async function handleFindFile({
       aiText = aiResponse.text;
       console.log("aiText", aiResponse.content)
     } catch (aiError) {
-      console.error("AI model error, falling back to basic parsing:", aiError);
+      const statusCode = (aiError as any)?.statusCode;
+      const responseBody = (aiError as any)?.responseBody;
+      const errorCode = (aiError as any)?.code ?? (aiError as any)?.error?.code;
+
+      // Avoid dumping massive provider error objects (they can include request metadata).
+      // Keep it concise but still useful.
+      const message =
+        (aiError as any)?.message ||
+        (typeof responseBody === 'string' ? responseBody : 'AI request failed');
+
+      console.warn(`AI unavailable (status=${statusCode ?? 'unknown'}): ${message}`);
+
+      if (statusCode === 429 || errorCode === 'insufficient_quota') {
+        aiFallbackNote =
+          'AI quota exceeded; using basic search (check your OpenAI billing/usage).';
+      } else {
+        aiFallbackNote = 'AI temporarily unavailable; using basic search.';
+      }
+
       // Fallback to basic keyword extraction without AI
       const includeFolder =
         message.toLowerCase().includes("folder") || message.toLowerCase().includes("directory");
@@ -161,6 +177,10 @@ export async function handleFindFile({
       response = `${tR("handle_search.found_one")}${message}${tR("handle_search.found_one_ext")}`;
     } else {
       response = `${tR("handle_search.found_many")}${foundFiles.length}${tR("handle_search.found_many_ii")}${message}${tR("handle_search.found_many_iii")}`;
+    }
+
+    if (aiFallbackNote) {
+      response = `${response}\n\n(${aiFallbackNote})`;
     }
 
     return {
