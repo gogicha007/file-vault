@@ -120,11 +120,11 @@ export async function handleFindFile({
 
       // Avoid dumping massive provider error objects (they can include request metadata).
       // Keep it concise but still useful.
-      const message =
+      const errorMessage =
         (aiError as any)?.message ||
         (typeof responseBody === 'string' ? responseBody : 'AI request failed');
 
-      console.warn(`AI unavailable (status=${statusCode ?? 'unknown'}): ${message}`);
+      console.warn(`AI unavailable (status=${statusCode ?? 'unknown'}): ${errorMessage}`);
 
       if (statusCode === 429 || errorCode === 'insufficient_quota') {
         aiFallbackNote =
@@ -133,14 +133,16 @@ export async function handleFindFile({
         aiFallbackNote = 'AI temporarily unavailable; using basic search.';
       }
 
-      // Fallback to basic keyword extraction without AI
+      // Fallback to basic keyword extraction without AI.
+      // IMPORTANT: use the *user* message, not the error message,
+      // so we still search for what they actually asked for.
+      const userMessage = (message ?? '').toLowerCase();
       const includeFolder =
-        message.toLowerCase().includes("folder") || message.toLowerCase().includes("directory");
+        userMessage.includes("folder") || userMessage.includes("directory");
       const fallbackTypes = includeFolder
         ? "folder, xlsx, xls, docx, doc, csv, pdf"
         : "xlsx, xls, docx, doc, csv, pdf";
-      aiText = `KEYWORDS: ${message
-        .toLowerCase()
+      aiText = `KEYWORDS: ${userMessage
         .replace(/[^\w\s]/g, " ")
         .split(/\s+/)
         .filter((word: string) => word.length > 2)
