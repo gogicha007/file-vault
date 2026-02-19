@@ -7,8 +7,7 @@ import { PrismaPg } from '@prisma/adapter-pg'
 // same value used in development for the packaged app.
 const adapter = new PrismaPg({
   connectionString:
-    process.env.DATABASE_URL ??
-    'postgres://f64a444f89b987b3e8d925da0ec6dd6de218ee38c6198b4af7f685d8c44a54b8:sk_m24Jt-nDLNPf7cAviXVGd@db.prisma.io:5432/postgres?sslmode=require',
+    process.env.DATABASE_URL
 })
 
 declare global {
