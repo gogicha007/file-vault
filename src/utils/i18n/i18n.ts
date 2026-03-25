@@ -36,9 +36,9 @@ i18n.use(initReactI18next).init({
   interpolation: { escapeValue: false },
 })
 
-export async function setLanguage(lng: 'en' | 'ka') {
+export async function setLanguage(lang: 'en' | 'ka') {
   if (typeof localStorage !== 'undefined') {
-    localStorage.setItem(STORAGE_KEY, lng)
+    localStorage.setItem(STORAGE_KEY, lang)
   }
   await i18n.changeLanguage(lng)
 }

@@ -48,7 +48,7 @@ export async function loginUser(email: string, password: string) {
 }
 
 export async function getCurrentUser() {
-    const userId = store.get('userId') as string | undefined
+    const userId = store.get('userId')
 
     if (!userId) {
         return null

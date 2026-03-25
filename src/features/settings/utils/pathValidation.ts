@@ -1,7 +1,7 @@
 /**
  * List of forbidden system paths that should not be indexed
  */
-export const FORBIDDEN_SYSTEM_PATHS: RegExp[] = [
+export const FORBIDDEN_SYSTEM_PATHS: Array<RegExp> = [
   /^[a-zA-Z]:\\windows/i,
   /^[a-zA-Z]:\\program files/i,
   /^[a-zA-Z]:\\program files \(x86\)/i,

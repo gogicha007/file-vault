@@ -1,6 +1,6 @@
 import "i18next"
-import translation from "../locales/en.json"
-import { defaultNS } from "./i18n"
+import type translation from "../locales/en.json"
+import type { defaultNS } from "./i18n"
 
 declare module "i18next" {
   interface CustomTypeOptions {

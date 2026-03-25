@@ -3,10 +3,8 @@ import { VisitLogo } from '@/components/logo/VisitLogo'
 const Footer = () => {
   const handleVisitClick = () => {
     try {
-      if (window.electron?.invoke) {
-        window.electron.invoke('open-external', 'https://visit.ge')
-        return
-      }
+      window.electron.invoke('open-external', 'https://visit.ge')
+      return
     } catch {}
 
     window.open('https://visit.ge', '_blank', 'noopener,noreferrer')
@@ -20,7 +18,7 @@ const Footer = () => {
           onClick={handleVisitClick}
           className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
         >
-          <VisitLogo className='h-6' style={{ color: 'var(--primary)' }} />
+          <VisitLogo className="h-6" style={{ color: 'var(--primary)' }} />
         </button>
       </div>
     </footer>

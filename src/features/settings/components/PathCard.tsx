@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
+import { Edit, Save, Trash2, X } from 'lucide-react'
+import type { PathItem } from '../Settings'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { PathItem } from '../Settings'
-import { Trash2, Edit, Save, X } from 'lucide-react'
 
 export const PathCard = ({
   item,

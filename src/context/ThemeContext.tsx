@@ -55,7 +55,7 @@ export function ThemeProvider({
         return
       }
 
-      setResolvedTheme(theme as ResolvedTheme)
+      setResolvedTheme(theme)
       root.classList.add(theme)
     }
 
@@ -69,9 +69,9 @@ export function ThemeProvider({
     () => ({
       theme,
       resolvedTheme,
-      setTheme: (theme: Theme) => {
-        localStorage.setItem(storageKey, theme)
-        setTheme(theme)
+      setTheme: (newTheme: Theme) => {
+        localStorage.setItem(storageKey, newTheme)
+        setTheme(newTheme)
       },
     }),
     [theme, resolvedTheme, storageKey],
@@ -80,8 +80,8 @@ export function ThemeProvider({
   return (
     <ThemeProviderContext value={value}>
       <FunctionOnce param={storageKey}>
-        {(storageKey) => {
-          const saved = localStorage.getItem(storageKey)
+        {(fnStorageKey) => {
+          const saved = localStorage.getItem(fnStorageKey)
           const prefersDark = window.matchMedia(
             '(prefers-color-scheme: dark)'
           ).matches
@@ -99,12 +99,7 @@ export function ThemeProvider({
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   const context = useContext(ThemeProviderContext)
-
-  if (context === undefined)
-    throw new Error('useTheme must be used within a ThemeProvider')
-
   return context
 }

@@ -1,10 +1,10 @@
-import { useAuth } from '@/context/AuthContext'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { useTranslation } from 'react-i18next'
+import { useAuth } from '@/context/AuthContext'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/register')({
   component: RegisterPage,

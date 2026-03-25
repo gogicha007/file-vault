@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import Settings from '@/features/settings/Settings'
 import { useAuth } from '@/context/AuthContext'
-import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/settings')({
   ssr: false,

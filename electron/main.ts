@@ -1,8 +1,8 @@
-import { app, BrowserWindow, ipcMain, shell } from 'electron'
-import path from 'path'
+import path from 'node:path'
+import { BrowserWindow, app, ipcMain, shell } from 'electron'
 import { prisma } from '../src/db'
-import { registerUser, loginUser, getCurrentUser, logoutUser, getAuthStoreSnapshot } from './auth'
 import { handleFindFile } from '../src/api/find-file'
+import { getAuthStoreSnapshot, getCurrentUser, loginUser, logoutUser, registerUser } from './auth'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -48,10 +48,10 @@ ipcMain.handle('auth:getCurrentUser', async () => {
   return await getCurrentUser()
 })
 
-ipcMain.handle('auth:logout', async () => logoutUser())
+ipcMain.handle('auth:logout', () => logoutUser())
 
 // Debug: expose auth store snapshot (path + data)
-ipcMain.handle('debug:authStore', async () => {
+ipcMain.handle('debug:authStore', () => {
   return getAuthStoreSnapshot()
 })
 
@@ -71,14 +71,14 @@ ipcMain.handle('db:getPaths', async () => {
 
 ipcMain.handle('db:createPath', async (_, input) => {
   try {
-    const { path, name, description, userId } = input
-    if (!path || !userId) {
+    const { path: filePath, name, description, userId } = input
+    if (!filePath || !userId) {
       return { success: false, error: 'Path and userId are required' }
     }
 
     const newPath = await prisma.path.create({
       data: {
-        path,
+        filePath,
         name: name || null,
         description: description || null,
         userId,
@@ -93,7 +93,7 @@ ipcMain.handle('db:createPath', async (_, input) => {
 
 ipcMain.handle('db:updatePath', async (_, input) => {
   try {
-    const { id, path, name, description } = input
+    const { id, path: filePath, name, description } = input
     if (!id) {
       return { success: false, error: 'Path ID is required' }
     }
@@ -101,7 +101,7 @@ ipcMain.handle('db:updatePath', async (_, input) => {
     const updatedPath = await prisma.path.update({
       where: { id },
       data: {
-        ...(path && { path }),
+        ...(filePath && { filePath }),
         ...(name !== undefined && { name }),
         ...(description !== undefined && { description }),
       },

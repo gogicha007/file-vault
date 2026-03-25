@@ -1,8 +1,8 @@
 declare module 'electron-store' {
   class Store<T = any> {
-    constructor(options?: any)
-    get<K extends keyof T>(key: K): T[K] | undefined
-    set<K extends keyof T>(key: K, value: T[K]): void
+    constructor(options?: Record<string, unknown>)
+    get<TKey extends keyof T>(key: K): T[Tkey] | undefined
+    set<TKey extends keyof T>(key: K, value: T[TKey]): void
     delete(key: keyof T): void
     clear(): void
   }

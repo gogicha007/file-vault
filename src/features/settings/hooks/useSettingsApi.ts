@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { PathItem } from "../Settings";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { settingsApi } from "../api/settingsApi";
+import type { PathItem } from "../Settings";
 import { useAuth } from "@/context/AuthContext";
 
 export const useSettingsApi = () => {

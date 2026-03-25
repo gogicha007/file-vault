@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useTransition } from 'react'
-import { Button } from '../../ui/button'
 import { Globe } from 'lucide-react'
+import { Button } from '../../ui/button'
 import { setLanguage } from '@/utils/i18n/i18n'
 
 type LangCode = 'en' | 'ka'

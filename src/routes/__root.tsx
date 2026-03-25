@@ -1,16 +1,16 @@
-import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
+import type { QueryClient } from '@tanstack/react-query'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/footer/Footer'
 import Providers from '@/context/Providers'
 
-import type { QueryClient } from '@tanstack/react-query'
 
 import '../utils/i18n/i18n'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
-  beforeLoad: async ({ context }) => {
+  beforeLoad: ({ context }) => {
     context.queryClient.setDefaultOptions({
       queries: { staleTime: 60_000 },
     })

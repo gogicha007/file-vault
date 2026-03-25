@@ -1,10 +1,10 @@
-import type { PropsWithChildren } from 'react'
-import { ThemeProvider } from './ThemeContext'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useRouter } from '@tanstack/react-router'
+import { ThemeProvider } from './ThemeContext'
 import { ApiContextProvider } from './ApiContext'
 import { AuthProvider } from './AuthContext'
+import type { PropsWithChildren } from 'react'
 
 export type ProvidersProps = PropsWithChildren<{}>
 

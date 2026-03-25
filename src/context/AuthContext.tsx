@@ -1,10 +1,5 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  PropsWithChildren,
-} from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
+import type { PropsWithChildren } from 'react'
 
 type User = {
   id: string
@@ -32,16 +27,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [])
 
   function getAuthApi() {
-    const authApi = window.electronAPI?.auth
-    if (!authApi) {
-      throw new Error('Electron auth API is not available. Are you running inside Electron?')
-    }
-    return authApi
+    return window.electronAPI.auth
   }
 
   async function checkAuth() {
     try {
-      const currentUser = await window.electronAPI?.auth?.getCurrentUser?.()
+      const currentUser = await window.electronAPI.auth.getCurrentUser()
       if (!currentUser) {
         setUser(null)
         return
@@ -59,14 +50,14 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function login(email: string, password: string) {
     const auth = getAuthApi()
-    const user = await auth.login(email, password)
-    setUser(user)
+    const loginUser = await auth.login(email, password)
+    setUser(loginUser)
   }
 
   async function register(email: string, password: string, name?: string) {
     const auth = getAuthApi()
-    const user = await auth.register(email, password, name)
-    setUser(user)
+    const regUser = await auth.register(email, password, name)
+    setUser(regUser)
   }
 
   async function logout() {

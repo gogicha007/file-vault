@@ -14,7 +14,7 @@ export interface UpdatePathInput {
   description?: string
 }
 
-export async function getPaths(): Promise<Path[]> {
+export async function getPaths(): Promise<Array<Path>> {
   try {
     const result = await window.electron.invoke('db:getPaths')
     if (!result.success) {

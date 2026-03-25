@@ -26,7 +26,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
 // the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld('electron', {
-  invoke: (channel: string, ...args: any[]) => {
+  invoke: (channel: string, ...args: Array<any>) => {
     const validChannels = [
       'db:getPaths',
       'db:createPath',

@@ -20,7 +20,7 @@ declare global {
   interface Window {
     electronAPI: ElectronAPI,
     electron: {
-      invoke: (channel: string, ...args: any[]) => Promise<any>
+      invoke: (channel: string, ...args: Array<any>) => Promise<any>
     }
   }
 }

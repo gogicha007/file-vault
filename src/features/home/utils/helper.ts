@@ -1,8 +1,8 @@
-import * as fs from "fs";
-import * as path from "path";
-import { exec } from "child_process";
-import { promisify } from "util";
-import { PathItem } from "@/api/find-file";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+import type { PathItem } from "@/api/find-file";
 
 
 const execAsync = promisify(exec);
@@ -20,11 +20,11 @@ interface FileSearchResult {
 export async function searchDirectory(
   dirPath: string,
   query: string,
-  fileTypes: string[],
+  fileTypes: Array<string>,
   maxDepth: number = 3,
   includeFolders: boolean = false
-): Promise<FileSearchResult[]> {
-  const results: FileSearchResult[] = [];
+): Promise<Array<FileSearchResult>> {
+  const results: Array<FileSearchResult> = [];
 
   if (maxDepth <= 0) return results;
 
@@ -151,7 +151,7 @@ export async function searchDirectory(
 }
 
 // Function to search for files and folders
-export async function searchFiles(query: string, fileTypes: string[] = [], paths: PathItem[]) {
+export async function searchFiles(query: string, fileTypes: Array<string> = [], paths: Array<PathItem>) {
   const foundFiles: Array<{
     name: string;
     path: string;
@@ -346,7 +346,7 @@ export async function openFolder(filePath: string) {
   }
 }
 
-export function getRelevantPaths(paths: PathItem[], keywords: string[]): PathItem[] {
+export function getRelevantPaths(paths: Array<PathItem>, keywords: Array<string>): Array<PathItem> {
     
     const loweredKeywords = keywords
         .map((k) => k.toLowerCase().trim())

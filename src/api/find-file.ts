@@ -1,7 +1,7 @@
 import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
 import i18n from "../utils/i18n/i18n";
-import { searchFiles, openFile, openFolder, getRelevantPaths } from "../features/home/utils/helper";
+import { getRelevantPaths, openFile, openFolder, searchFiles } from "../features/home/utils/helper";
 
 export interface PathItem {
   id?: string;
@@ -13,7 +13,7 @@ export interface FindFileRequest {
   message?: string;
   action?: "open" | "openFolder" | "search";
   filePath?: string;
-  paths?: PathItem[];
+  paths?: Array<PathItem>;
 }
 
 export interface FindFileResponse {
@@ -136,7 +136,7 @@ export async function handleFindFile({
       // Fallback to basic keyword extraction without AI.
       // IMPORTANT: use the *user* message, not the error message,
       // so we still search for what they actually asked for.
-      const userMessage = (message ?? '').toLowerCase();
+      const userMessage = message.toLowerCase();
       const includeFolder =
         userMessage.includes("folder") || userMessage.includes("directory");
       const fallbackTypes = includeFolder

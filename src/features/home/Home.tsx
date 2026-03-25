@@ -1,9 +1,9 @@
+import { useContext, useState } from 'react'
+import { Search, Sparkles } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Search, Sparkles } from 'lucide-react'
-import { useContext, useState } from 'react'
 import { ApiContext } from '@/context/ApiContext'
-import { useTranslation } from 'react-i18next'
 
 interface FileResult {
   name: string
@@ -278,11 +278,9 @@ const Home = () => {
               </button>
               <button
                 onClick={async () => {
-                  if (selectedFile) {
-                    await handleOpenFolder(selectedFile)
-                    setShowConfirmation(false)
-                    setSelectedFile(null)
-                  }
+                  await handleOpenFolder(selectedFile)
+                  setShowConfirmation(false)
+                  setSelectedFile(null)
                 }}
                 disabled={isSearching}
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded font-medium transition-colors"

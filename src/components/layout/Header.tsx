@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import LocaleSwitcher from "../controls/locale-switcher/LocaleSwitcher";
-import MainMenu from "./MainMenu";
 import { FolderSearch } from "lucide-react";
+import LocaleSwitcher from "../controls/locale-switcher/LocaleSwitcher";
 import AuthBar from "../controls/auth-bar/AuthBar";
 import ThemeSwitcher from "../controls/theme-switcher/ThemeSwitcher";
+import MainMenu from "./MainMenu";
 
 export default function Header() {
   return (

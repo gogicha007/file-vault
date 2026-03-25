@@ -10,7 +10,7 @@ export const getRouter = () => {
   // which produces a pathname like /C:/.../index.html that won't match our routes.
   // Use memory history starting at '/' so the Home route renders on startup.
   const isFileProtocol =
-    typeof window !== 'undefined' && window.location?.protocol === 'file:'
+    typeof window !== 'undefined' && window.location.protocol === 'file:'
 
   const router = createRouter({
     routeTree,

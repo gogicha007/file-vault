@@ -1,4 +1,4 @@
-import { PathItem } from '../Settings'
+import type { PathItem } from '../Settings'
 import * as pathsApi from '@/api/paths'
 
 export const settingsApi = {

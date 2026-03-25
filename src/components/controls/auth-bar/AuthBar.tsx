@@ -1,7 +1,7 @@
-import { Button } from '../../ui/button'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '@/context/AuthContext'
 import { useNavigate } from '@tanstack/react-router'
+import { Button } from '../../ui/button'
+import { useAuth } from '@/context/AuthContext'
 
 const AuthBar = () => {
   const { t: tAB } = useTranslation('translation', { keyPrefix: 'AuthBar' })

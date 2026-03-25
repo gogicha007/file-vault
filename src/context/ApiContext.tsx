@@ -1,8 +1,9 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, useState } from 'react'
 import { useSettingsApi } from '../features/settings/hooks/useSettingsApi'
-import { PathItem } from '../features/settings/Settings'
+import type { UseMutateFunction } from '@tanstack/react-query'
+import type { PathItem } from '../features/settings/Settings'
+import type { ReactNode} from 'react';
 
-import { UseMutateFunction } from '@tanstack/react-query'
 
 interface FileResult {
   name: string
@@ -14,13 +15,13 @@ interface FileResult {
 interface SearchResponse {
   intent: 'search' | 'open' | 'confirm'
   response: string
-  files?: FileResult[]
+  files?: Array<FileResult>
   requiresConfirmation: boolean
   suggestedAction?: string
 }
 
 type ApiContextType = {
-  paths: PathItem[]
+  paths: Array<PathItem>
   addPath: UseMutateFunction<unknown, Error, PathItem, unknown>
   addPathError: Error | null
   updatePath: UseMutateFunction<unknown, Error, Partial<PathItem>, unknown>

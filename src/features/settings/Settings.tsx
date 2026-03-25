@@ -1,4 +1,9 @@
-import { useState, useContext } from 'react'
+import { useContext, useState } from 'react'
+import { Plus } from 'lucide-react'
+import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
+import { PathCard } from './components/PathCard'
+import { validatePath } from './utils/pathValidation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -9,24 +14,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Plus } from 'lucide-react'
-import { toast } from 'sonner'
 import { Toaster } from '@/components/ui/sonner'
-import { PathCard } from './components/PathCard'
-import { validatePath } from './utils/pathValidation'
 import { ApiContext } from '@/context/ApiContext'
 import { Spinner } from '@/components/ui/spinner'
 import {
   AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
   AlertDialogAction,
-  AlertDialogTitle,
+  AlertDialogCancel,
+  AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogCancel,
+  AlertDialogHeader,
+  AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { useTranslation } from 'react-i18next'
 
 export interface PathItem {
   id?: string
@@ -183,7 +183,7 @@ const Settings = () => {
       <Card>
         <CardHeader>
           <CardTitle>
-            {tS('paths.saved_paths.title')} ({pathsData?.length || 0})
+            {tS('paths.saved_paths.title')} ({pathsData.length})
           </CardTitle>
           <CardDescription>{tS('paths.saved_paths.sub_title')}</CardDescription>
         </CardHeader>
@@ -194,7 +194,7 @@ const Settings = () => {
             </div>
           ) : (
             <div className="space-y-4">
-              {!pathsData || pathsData.length === 0 ? (
+              {pathsData.length === 0 ? (
                 <p className="text-center text-muted-foreground py-8">
                   {tS('paths.saved_paths.no_paths')}
                 </p>
