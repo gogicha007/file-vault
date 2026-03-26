@@ -7,7 +7,10 @@ set OPENAI_API_KEY=openai_key
 REM Start your Electron app (adjust the path as needed)
 start "" "release\win-unpacked\FileVault.exe"
 
-
+## Power shell
+$env:DATABASE_URL="KEY"
+$env:OPENAI_API_KEY="your-key"
+Start-Process .\release\FileVault.exe
 Welcome to your new TanStack app! 
 
 
@@ -51,14 +54,6 @@ npm run lint
 npm run format
 npm run check
 ```
-
-
-## Power shell
-$env:DATABASE_URL="KEY"
-$env:OPENAI_API_KEY="your-key"
-Start-Process .\release\FileVault.exe
-
-
 
 ## Routing
 This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
