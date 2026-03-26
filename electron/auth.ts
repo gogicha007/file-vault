@@ -49,11 +49,11 @@ export async function loginUser(email: string, password: string) {
 
 export async function getCurrentUser() {
     const userId = store.get('userId')
-
+    
     if (!userId) {
         return null
     }
-
+    
     const user = await prisma.user.findUnique({
         where: { id: userId },
         select: { id: true, email: true, name: true, role: true }

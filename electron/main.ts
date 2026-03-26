@@ -3,6 +3,8 @@ import { BrowserWindow, app, ipcMain, shell } from 'electron'
 import { prisma } from '../src/db'
 import { handleFindFile } from '../src/api/find-file'
 import { getAuthStoreSnapshot, getCurrentUser, loginUser, logoutUser, registerUser } from './auth'
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
 
 let mainWindow: BrowserWindow | null = null
 
@@ -78,7 +80,7 @@ ipcMain.handle('db:createPath', async (_, input) => {
 
     const newPath = await prisma.path.create({
       data: {
-        filePath,
+        path: filePath,
         name: name || null,
         description: description || null,
         userId,

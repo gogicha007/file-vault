@@ -1,4 +1,15 @@
+# start-app.bat
+@echo off
+REM Set environment variable for the session
+set DATABASE_URL=your_postgres_connection_string_here
+set OPENAI_API_KEY=openai_key
+
+REM Start your Electron app (adjust the path as needed)
+start "" "release\win-unpacked\FileVault.exe"
+
+
 Welcome to your new TanStack app! 
+
 
 # Getting Started
 
@@ -40,6 +51,12 @@ npm run lint
 npm run format
 npm run check
 ```
+
+
+## Power shell
+$env:DATABASE_URL="KEY"
+$env:OPENAI_API_KEY="your-key"
+Start-Process .\release\FileVault.exe
 
 
 

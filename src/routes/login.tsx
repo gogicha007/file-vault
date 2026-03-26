@@ -23,6 +23,7 @@ function LoginPage() {
     setError('')
 
     try {
+      
       await login(email, password)
       navigate({ to: '/' })
     } catch (err: any) {
