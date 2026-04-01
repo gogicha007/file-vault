@@ -1,10 +1,9 @@
 # start-app.bat
 @echo off
-REM Set environment variable for the session
-set DATABASE_URL=your_postgres_connection_string_here
+set DATABASE_URL=postgres_connection_string
 set OPENAI_API_KEY=openai_key
 
-REM Start your Electron app (adjust the path as needed)
+
 start "" "release\win-unpacked\FileVault.exe"
 
 ## Power shell
