@@ -1,7 +1,7 @@
 # start-app.bat
 @echo off
-set DATABASE_URL=postgres_connection_string
-set OPENAI_API_KEY=openai_key
+set "DATABASE_URL=postgres_connection_string"
+set "OPENAI_API_KEY=openai_key"
 
 
 start "" "release\win-unpacked\FileVault.exe"
